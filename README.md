@@ -1,20 +1,35 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# GATEVAE
 
-# Run and deploy your AI Studio app
+GATEVAE is a premium technology e-commerce application featuring a minimal, futuristic design, engaging scroll animations, dynamic cart management, an intuitive search overlay, and detailed product galleries.
 
-This contains everything you need to run your app locally.
+## Features
+- **Modern UI/UX**: Clean, minimalist design system with smooth animations.
+- **Dynamic Shopping Cart**: Real-time cart updates and state management.
+- **Product Discovery**: Advanced search capabilities and comprehensive product pages.
+- **Quick View & Compare**: Seamlessly view product details and compare specifications side-by-side.
+- **Order Tracking**: Real-time shipping and tracking integration.
+- **Wishlist**: Save favorite items for later.
 
-View your app in AI Studio: https://ai.studio/apps/443ed20a-fd29-4ce8-a27c-e88fdfeda7df
+## Tech Stack
+- React 18+
+- TypeScript
+- Vite
+- Tailwind CSS
+- Motion (Framer Motion)
+- Lucide React
 
-## Run Locally
+## Getting Started
 
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+4. Build for production:
+   ```bash
+   npm run build
+   ```

@@ -1,6 +1,6 @@
 {
-  "name": "Nexus Tech",
-  "description": "Premium futuristic technology e-commerce store with minimal design, scroll animations, dynamic cart, search overlay, and product galleries.",
+  "name": "GATEVAE",
+  "description": "Premium tech e-commerce store with minimal design, scroll animations, dynamic cart, search overlay, and product galleries.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
