@@ -1,0 +1,91 @@
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import Categories from './components/Categories';
+import Products from './components/Products';
+import Spotlight from './components/Spotlight';
+import Brands from './components/Brands';
+import Features from './components/Features';
+import Testimonials from './components/Testimonials';
+import Newsletter from './components/Newsletter';
+import Footer from './components/Footer';
+import Search from './components/Search';
+import ProductDetail from './components/ProductDetail';
+import AuthModal from './components/AuthModal';
+import ScrollToTop from './components/ScrollToTop';
+import Shop from './pages/Shop';
+import Checkout from './pages/Checkout';
+import Account from './pages/Account';
+import CartPage from './pages/CartPage';
+import ComparePage from './pages/ComparePage';
+import Accessories from './pages/Accessories';
+import Deals from './pages/Deals';
+import About from './pages/About';
+import Innovation from './pages/Innovation';
+import Careers from './pages/Careers';
+import Contact from './pages/Contact';
+import Shipping from './pages/Shipping';
+import Warranty from './pages/Warranty';
+import QuickViewModal from './components/QuickViewModal';
+import { StoreProvider } from './context/StoreContext';
+
+function Home() {
+  return (
+    <>
+      <Hero />
+      <Categories />
+      <Products />
+      <Spotlight />
+      <Brands />
+      <Features />
+      <Testimonials />
+      <Newsletter />
+    </>
+  );
+}
+
+function MainContent() {
+  return (
+    <div className="min-h-screen font-sans bg-[#FAFAFA] flex flex-col">
+      <ScrollToTop />
+      <Navbar />
+      <Search />
+      <AuthModal />
+      <QuickViewModal />
+      
+      <main className="flex-1">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/products" element={<Shop />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/compare" element={<ComparePage />} />
+          <Route path="/accessories" element={<Accessories />} />
+          <Route path="/deals" element={<Deals />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/innovation" element={<Innovation />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/shipping" element={<Shipping />} />
+          <Route path="/warranty" element={<Warranty />} />
+          <Route path="/:category" element={<Shop />} />
+        </Routes>
+      </main>
+      
+      <Footer />
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <StoreProvider>
+      <MainContent />
+    </StoreProvider>
+  );
+}
+
