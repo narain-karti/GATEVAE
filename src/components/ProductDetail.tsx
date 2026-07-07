@@ -5,6 +5,7 @@ import { products } from '../data';
 import ProductCard from './ProductCard';
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useSEO } from '../hooks/useSEO';
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -13,6 +14,11 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
 
   const selectedProduct = products.find(p => p.id === id);
+
+  useSEO({
+    title: selectedProduct ? selectedProduct.name : 'Product Not Found',
+    description: selectedProduct ? selectedProduct.description : 'Product details page.'
+  });
 
   if (!selectedProduct) return (
     <div className="min-h-screen pt-[clamp(8rem,15vh,12rem)] pb-24 px-[clamp(1.5rem,5vw,5rem)] bg-[#FAFAFA] flex items-center justify-center">

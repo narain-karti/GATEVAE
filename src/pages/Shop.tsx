@@ -5,6 +5,7 @@ import ProductCard from '../components/ProductCard';
 import { fadeUp } from '../utils/animations';
 import { useStore } from '../context/StoreContext';
 import { SkeletonProduct } from '../components/Skeletons';
+import { useSEO } from '../hooks/useSEO';
 
 export default function Shop() {
   const { category } = useParams();
@@ -38,6 +39,11 @@ export default function Shop() {
       subtitle = "Enhance your technology ecosystem";
     }
   }
+
+  useSEO({
+    title: title.charAt(0) + title.slice(1).toLowerCase(),
+    description: subtitle
+  });
 
   return (
     <div className="pt-32 pb-24 px-6 min-h-screen bg-[#FAFAFA]">

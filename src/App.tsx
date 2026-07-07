@@ -29,8 +29,14 @@ import Shipping from './pages/Shipping';
 import Warranty from './pages/Warranty';
 import QuickViewModal from './components/QuickViewModal';
 import { StoreProvider } from './context/StoreContext';
+import { useSEO } from './hooks/useSEO';
 
 function Home() {
+  useSEO({ 
+    title: 'Home', 
+    description: 'Explore the latest futuristic technology and premium gadgets at GATEVAE.' 
+  });
+
   return (
     <>
       <Hero />

@@ -61,6 +61,7 @@ export default function Navbar() {
             <button 
               className={`transition-colors duration-300 ${isScrolled ? 'text-[#202020]' : 'text-white'}`}
               onClick={() => setIsMobileMenuOpen(true)}
+              aria-label="Open Mobile Menu"
             >
               <Menu size={24} />
             </button>
@@ -107,6 +108,7 @@ export default function Navbar() {
             <div className="flex items-center gap-3 md:gap-4">
               <button 
                 onClick={() => setIsSearchOpen(true)}
+                aria-label="Search"
                 className="w-[42px] h-[42px] rounded-full bg-[#202020] flex items-center justify-center hover:scale-105 hover:bg-[#5E0ED7] transition-all duration-300 text-white"
               >
                 <Search size={18} />
@@ -114,6 +116,7 @@ export default function Navbar() {
               
               <button 
                 onClick={handleUserClick}
+                aria-label="User Account"
                 className="hidden md:flex items-center justify-center h-[42px] px-[28px] rounded-full bg-[#202020] text-white text-[11px] font-bold uppercase tracking-widest hover:scale-105 hover:bg-[#5E0ED7] transition-all duration-300"
               >
                 {user ? 'PROFILE' : 'SIGN IN / UP'}
@@ -121,6 +124,7 @@ export default function Navbar() {
 
               <button 
                 onClick={() => navigate('/cart')}
+                aria-label="Shopping Cart"
                 className="relative w-[42px] h-[42px] rounded-full bg-[#202020] flex items-center justify-center hover:scale-105 hover:bg-[#5E0ED7] transition-all duration-300 text-white"
               >
                 <ShoppingBag size={18} />
@@ -146,7 +150,7 @@ export default function Navbar() {
             className="fixed inset-0 z-[1000] bg-white flex flex-col md:hidden"
           >
             <div className="p-6 flex justify-end">
-              <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-[#202020]">
+              <button onClick={() => setIsMobileMenuOpen(false)} aria-label="Close Mobile Menu" className="p-2 text-[#202020]">
                 <X size={32} />
               </button>
             </div>

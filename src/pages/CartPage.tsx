@@ -3,10 +3,16 @@ import { motion } from 'motion/react';
 import { Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
 import { useNavigate, Link } from 'react-router-dom';
+import { useSEO } from '../hooks/useSEO';
 
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, cartTotal } = useStore();
   const navigate = useNavigate();
+
+  useSEO({
+    title: 'Your Cart',
+    description: 'Review and modify the items in your shopping cart.'
+  });
 
   return (
     <div className="pt-24 pb-16 px-6 md:px-12 max-w-[1200px] mx-auto min-h-screen">

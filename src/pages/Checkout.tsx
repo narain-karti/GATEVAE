@@ -1,9 +1,15 @@
 import { motion } from 'motion/react';
 import { useStore } from '../context/StoreContext';
 import { Link } from 'react-router-dom';
+import { useSEO } from '../hooks/useSEO';
 
 export default function Checkout() {
   const { cart, cartTotal } = useStore();
+
+  useSEO({
+    title: 'Checkout',
+    description: 'Secure checkout for your premium tech gadgets.'
+  });
 
   if (cart.length === 0) {
     return (

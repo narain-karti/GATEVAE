@@ -52,6 +52,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
         <div className="absolute top-4 right-4 flex flex-col gap-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-4 group-hover:translate-x-0">
           <button 
             onClick={toggleWishlist}
+            aria-label="Toggle Wishlist"
             className={`w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm hover:scale-110 transition-all duration-300 ${isWishlisted ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
             title="Wishlist"
           >
@@ -59,6 +60,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
           </button>
           <button 
             onClick={toggleCompare}
+            aria-label="Compare Product"
             className={`w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm hover:scale-110 transition-all duration-300 ${isCompared ? 'text-primary' : 'text-gray-400 hover:text-primary'}`}
             title="Compare"
           >
@@ -66,6 +68,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
           </button>
           <button 
             onClick={handleQuickView}
+            aria-label="Quick View"
             className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-gray-400 hover:text-black shadow-sm hover:scale-110 transition-all duration-300"
             title="Quick View"
           >
@@ -77,6 +80,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index }) => {
         {isWishlisted && (
           <button 
             onClick={toggleWishlist}
+            aria-label="Remove from Wishlist"
             className="absolute top-4 right-4 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-red-500 shadow-sm z-10 lg:hidden"
           >
             <Heart size={18} className="fill-current" />

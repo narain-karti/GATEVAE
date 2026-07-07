@@ -1,7 +1,13 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import { useSEO } from '../hooks/useSEO';
 
 export default function About() {
+  useSEO({
+    title: 'About Us',
+    description: 'Learn more about GATEVAE, our mission, and our passion for premium futuristic technology.'
+  });
+
   return (
     <div className="pt-32 pb-16 px-6 md:px-12 max-w-[1200px] mx-auto min-h-screen">
       <motion.div
