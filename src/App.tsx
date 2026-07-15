@@ -56,6 +56,8 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminOrders from './pages/admin/AdminOrders';
 
+import ChatbotBubble from './components/ChatbotBubble';
+
 function MainContent() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -103,6 +105,7 @@ function MainContent() {
       </main>
       
       <Footer />
+      <ChatbotBubble />
     </div>
   );
 }
