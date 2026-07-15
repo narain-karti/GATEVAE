@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { Product, CartItem } from '../types';
+import { supabase } from '../supabaseClient';
+import { products as fallbackProducts } from '../data';
 
 interface User {
   name: string;
@@ -7,6 +9,8 @@ interface User {
 }
 
 interface StoreContextType {
+  products: Product[];
+  categories: any[];
   cart: CartItem[];
   addToCart: (product: Product) => void;
   removeFromCart: (id: string) => void;
@@ -37,6 +41,8 @@ interface StoreContextType {
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
 export const StoreProvider = ({ children }: { children: ReactNode }) => {
+  const [products, setProducts] = useState<Product[]>(fallbackProducts);
+  const [categories, setCategories] = useState<any[]>([]);
   const [cart, setCart] = useState<CartItem[]>(() => {
     const savedCart = localStorage.getItem('gatevae_cart');
     return savedCart ? JSON.parse(savedCart) : [];
@@ -84,10 +90,26 @@ export const StoreProvider = ({ children }: { children: ReactNode }) => {
   }, [user]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-    return () => clearTimeout(timer);
+    const fetchInitialData = async () => {
+      try {
+        const [productsRes, categoriesRes] = await Promise.all([
+          supabase.from('products').select('*'),
+          supabase.from('categories').select('*')
+        ]);
+        
+        if (productsRes.data && productsRes.data.length > 0) {
+          setProducts(productsRes.data);
+        }
+        if (categoriesRes.data && categoriesRes.data.length > 0) {
+          setCategories(categoriesRes.data);
+        }
+      } catch (error) {
+        console.error('Error fetching data from Supabase:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchInitialData();
   }, []);
 
   const addToCart = (product: Product) => {
@@ -134,6 +156,7 @@ export const StoreProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <StoreContext.Provider value={{
+      products, categories,
       cart, addToCart, removeFromCart, updateQuantity,
       isCartOpen, setIsCartOpen,
       isSearchOpen, setIsSearchOpen,

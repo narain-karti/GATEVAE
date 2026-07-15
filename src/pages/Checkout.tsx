@@ -2,14 +2,64 @@ import { motion } from 'motion/react';
 import { useStore } from '../context/StoreContext';
 import { Link } from 'react-router-dom';
 import { useSEO } from '../hooks/useSEO';
+import { supabase } from '../supabaseClient';
+import React, { useState } from 'react';
 
 export default function Checkout() {
   const { cart, cartTotal } = useStore();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useSEO({
     title: 'Checkout',
     description: 'Secure checkout for your premium tech gadgets.'
   });
+
+  const handleCheckout = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    const formData = new FormData(e.currentTarget);
+    const orderData = {
+      customer_name: `${formData.get('firstName')} ${formData.get('lastName')}`,
+      customer_email: 'customer@example.com', // In a real app, capture this from form or user context
+      customer_address: `${formData.get('address')}, ${formData.get('city')} ${formData.get('postalCode')}`,
+      total_amount: cartTotal,
+      status: 'pending'
+    };
+
+    try {
+      // 1. Create Order
+      const { data: order, error: orderError } = await supabase
+        .from('orders')
+        .insert([orderData])
+        .select()
+        .single();
+
+      if (orderError) throw orderError;
+
+      // 2. Create Order Items
+      const orderItems = cart.map(item => ({
+        order_id: order.id,
+        product_id: item.id,
+        quantity: item.quantity,
+        price_at_time: item.price
+      }));
+
+      const { error: itemsError } = await supabase
+        .from('order_items')
+        .insert(orderItems);
+
+      if (itemsError) throw itemsError;
+
+      alert('Order placed successfully! Check the Admin Dashboard.');
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Error placing order:', error);
+      alert('Failed to place order.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   if (cart.length === 0) {
     return (
@@ -29,30 +79,30 @@ export default function Checkout() {
         {/* Left: Form */}
         <div>
           <h2 className="text-3xl font-bold uppercase tracking-tight mb-8">Checkout</h2>
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleCheckout}>
             <h3 className="font-bold uppercase tracking-widest text-sm text-gray-500 border-b border-gray-200 pb-2">Shipping Information</h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">First Name</label>
-                <input type="text" required className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-primary transition-colors" />
+                <input name="firstName" type="text" required className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-primary transition-colors" />
               </div>
               <div>
                 <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Last Name</label>
-                <input type="text" required className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-primary transition-colors" />
+                <input name="lastName" type="text" required className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-primary transition-colors" />
               </div>
             </div>
             <div>
               <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Address</label>
-              <input type="text" required className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-primary transition-colors" />
+              <input name="address" type="text" required className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-primary transition-colors" />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">City</label>
-                <input type="text" required className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-primary transition-colors" />
+                <input name="city" type="text" required className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-primary transition-colors" />
               </div>
               <div>
                 <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Postal Code</label>
-                <input type="text" required className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-primary transition-colors" />
+                <input name="postalCode" type="text" required className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-primary transition-colors" />
               </div>
             </div>
 
@@ -72,8 +122,8 @@ export default function Checkout() {
               </div>
             </div>
 
-            <button type="button" onClick={() => alert("Order Placed Successfully!")} className="w-full bg-black text-white font-bold uppercase tracking-widest py-4 rounded-xl hover:bg-primary transition-colors mt-8">
-              Place Order - ₹{cartTotal.toLocaleString()}
+            <button type="submit" disabled={isSubmitting} className="w-full bg-black text-white font-bold uppercase tracking-widest py-4 rounded-xl hover:bg-primary transition-colors mt-8 disabled:opacity-50">
+              {isSubmitting ? 'Processing...' : `Place Order - ₹${cartTotal.toLocaleString()}`}
             </button>
           </form>
         </div>
